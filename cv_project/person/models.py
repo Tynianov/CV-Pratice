@@ -1,7 +1,5 @@
 from django.db import models
 
-from iris.models import PersonIrisCompare
-
 
 class PersonManager(models.Manager):
     def iris(self, *args, **kwargs):
@@ -35,10 +33,6 @@ class Person(models.Model):
     def compare_iris(self, image, code, mask):
         for iris in self.iris.all():
             iris.compare_iris(image, code, mask)
-
-        PersonIrisCompare.objects.filter(person=self).delete()
-
-        return PersonIrisCompare.objects.filter(person=self).first()
 
 
 class PersonImage(models.Model):

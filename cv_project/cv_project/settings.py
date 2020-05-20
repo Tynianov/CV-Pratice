@@ -126,6 +126,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Additional locations of static_repo files
+STATICFILES_DIRS = (
+    os.path.normpath(os.path.join(BASE_DIR, 'static_repo')),
+)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -136,11 +142,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
-
 COMPARE_PERCENT = 0.5
 IRIS_EXTENSION = '.bmp'
+
+PERSON_RESULT_LIMIT = 3
