@@ -112,6 +112,7 @@ def split_codes(codes, masks, targets):
 
 
 if __name__ == '__main__':
+    data = load_utiris()['data']
     image = cv2.imread(data[3])
     image2 = cv2.imread(data[3])
     print(image.shape)

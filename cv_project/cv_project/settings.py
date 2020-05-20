@@ -141,3 +141,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+COMPARE_PERCENT = 0.5
+IRIS_EXTENSION = '.bmp'
