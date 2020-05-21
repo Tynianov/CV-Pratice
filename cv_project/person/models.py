@@ -3,7 +3,8 @@ from django.db import models
 
 class PersonManager(models.Manager):
     def iris(self, *args, **kwargs):
-        kwargs['iris__isnull'] = False
+        kwargs['iris__encoding__isnull'] = False
+        kwargs['iris__mask__isnull'] = False
         return super().filter(*args, **kwargs).distinct()
 
     def face(self, *args, **kwargs):
