@@ -28,7 +28,10 @@ class PersonIrisForm(forms.ModelForm):
         instance = super().save(commit)
         try:
             image = cv2.imread(instance.image.path)
-            instance.encoding, instance.mask = encode_photo(image).dumps()
-            instance.save()
+            code, mask = encode_photo(image)
+            self.instance.encoding = code.dumps()
+            self.instance.mask = mask.dumps()
         except Exception as e:
             print(e)
+        finally:
+            return super().save(commit)

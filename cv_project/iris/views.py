@@ -27,9 +27,9 @@ class IrisRecognizeAPIView(APIView):
 
         for person in Person.objects.iris():
             person.compare_iris(image, code, mask)
-        PersonIrisCompare.objects.filter(person=self).delete()
+            PersonIrisCompare.objects.filter(person=person).delete()
 
-        persons = PersonIrisCompare.objects.filter(person=self)
+        persons = PersonIrisCompare.objects.filter()
         serializer = PersonIrisCompareSerializer(persons, many=True)
 
         return Response(serializer.data, status=200)

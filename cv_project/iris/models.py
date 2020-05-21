@@ -25,12 +25,15 @@ class PersonIris(models.Model):
     mask = models.BinaryField(null=True, blank=True)
 
     def compare_iris(self, image, code, mask):
-        person_code = np.frombuffer(self.encoding, dtype=np.int8)
-        person_mask = np.frombuffer(self.mask, dtype=np.int8)
-        percentage = 1 - compare_codes(person_code, code, person_mask, mask)
+        try:
+            person_code = np.frombuffer(self.encoding, dtype=np.int8)
+            person_mask = np.frombuffer(self.mask, dtype=np.int8)
+            percentage = 1 - compare_codes(person_code, code, person_mask, mask)
 
-        if percentage >= 0.5:
-            PersonIrisCompare.objects.create(person=self.person, compare_with=image, percentage=percentage)
+            if percentage >= 0.5:
+                PersonIrisCompare.objects.create(person=self.person, compare_with=image, percentage=percentage)
+        except Exception as e:
+            print(e)
 
 
 def handler_compare_path(instance, filename):
