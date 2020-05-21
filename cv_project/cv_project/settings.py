@@ -142,7 +142,3 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-COMPARE_PERCENT = 0.5
-IRIS_EXTENSION = '.bmp'
-
-PERSON_RESULT_LIMIT = 3

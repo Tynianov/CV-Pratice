@@ -1,4 +1,6 @@
+import base64
 import os
+import pickle
 
 import numpy as np
 
@@ -24,32 +26,30 @@ class PersonIris(models.Model):
     encoding = models.BinaryField(null=True, blank=True)
     mask = models.BinaryField(null=True, blank=True)
 
-    def compare_iris(self, image, code, mask):
-        try:
-            person_code = np.frombuffer(self.encoding, dtype=np.int8)
-            person_mask = np.frombuffer(self.mask, dtype=np.int8)
-            percentage = 1 - compare_codes(person_code, code, person_mask, mask)
+    def decode_np_array(self, bytes):
+        np_bytes = base64.b64decode(bytes)
+        np_array = pickle.loads(np_bytes)
+        return np_array
 
-            if percentage >= 0.5:
-                PersonIrisCompare.objects.create(person=self.person, compare_with=image, percentage=percentage)
+    def compare_iris(self, code, mask):
+        try:
+            person_code = self.decode_np_array(self.encoding)
+            person_mask = self.decode_np_array(self.mask)
+
+            percentage = 1 - compare_codes(person_code, code, person_mask, mask)
+            return {'percentage': percentage, 'person': {
+                'first_name': self.person.first_name,
+                'last_name': self.person.last_name
+
+            }}
         except Exception as e:
             print(e)
 
 
 def handler_compare_path(instance, filename):
     name, ext = os.path.splitext(filename)
-    filename = "iris/compare/%s%s" % (instance.person.username + name, settings.IRIS_EXTENSION)
+    filename = "iris/compare/%s_%s%s" % (instance.person.pk, name, settings.IRIS_EXTENSION)
     real_path = os.path.join(settings.MEDIA_ROOT, filename)
     if os.path.isfile(real_path):
         os.unlink(real_path)
     return filename
-
-
-class PersonIrisCompare(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='iris_stat')
-    compare_with = models.ImageField(upload_to=handler_compare_path)
-    percentage = models.FloatField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['percentage']
