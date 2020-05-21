@@ -1,17 +1,6 @@
 from django.db import models
 
 
-class PersonManager(models.Manager):
-    def iris(self, *args, **kwargs):
-        kwargs['iris__encoding__isnull'] = False
-        kwargs['iris__mask__isnull'] = False
-        return super().filter(*args, **kwargs).distinct()
-
-    def face(self, *args, **kwargs):
-        kwargs['images__isnull'] = False
-        return super().filter(*args, **kwargs).distinct()
-
-
 class Person(models.Model):
     first_name = models.CharField(
         max_length=128
@@ -25,8 +14,6 @@ class Person(models.Model):
     birthday = models.DateTimeField(
         default='', null=True
     )
-
-    objects = PersonManager()
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
