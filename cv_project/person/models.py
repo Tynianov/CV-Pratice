@@ -28,8 +28,8 @@ class PersonImage(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.image and not self.encoding or self.image != self.__original_image:
-            print("!!!")
             image = cv2.imread(self.image.path)
             rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             self.encoding = rgb.dumps()
             super().save(*args, **kwargs)
+            self.__original_image = self.image
