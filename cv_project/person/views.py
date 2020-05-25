@@ -1,5 +1,8 @@
 import os
 import cv2
+from pickle import loads
+import numpy as np
+from io import BytesIO
 import face_recognition
 
 from django.conf import settings
@@ -29,17 +32,18 @@ class CompareFacesView(APIView):
         rgb = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
         boxes = face_recognition.face_locations(rgb)
         encodings = face_recognition.face_encodings(rgb, boxes)
-
-        known_faces = PersonImage.objects.all().values_list('encoding', flat=True)
-        ids = PersonImage.objects.all().values_list('id', flat=True)
+        known_faces = [self.convert_binary_to_array(face)
+                       for face in PersonImage.objects.all().order_by('id').values_list('encoding', flat=True)]
+        ids = PersonImage.objects.all().order_by('id').values_list('id', flat=True)
         names = []
-
+        found = False
         for encoding in encodings:
-            matches = face_recognition.compare_faces(known_faces, encoding)
-            name = "Unknown"
-
-            if True in matches:
+            try:
+                matches = face_recognition.compare_faces(known_faces, encoding)
+                name = "Unknown"
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
+                if matchedIdxs:
+                    found = True
                 counts = {}
                 for i in matchedIdxs:
                     person_image = PersonImage.objects.filter(id=ids[i]).first()
@@ -47,10 +51,19 @@ class CompareFacesView(APIView):
                         name = f'{person_image.person.first_name} {person_image.person.last_name}'
                         counts[name] = counts.get(name, 0) + 1
 
-                name = max(counts, key=counts.get)
+                if counts:
+                    name = max(counts, key=counts.get)
 
-            # update the list of names
-            names.append(name)
-        print(names)
+                # update the list of names
+                names.append(name)
+            except TypeError as e:
+                print('Error during face comparison', e)
+        if found:
+            return Response({'result': 'Found match', 'names': names})
 
-        return Response({'names': names})
+        return Response({'result': 'No matches found'})
+
+    def convert_binary_to_array(self, text):
+        out = BytesIO(text)
+        out.seek(0)
+        return np.load(out, allow_pickle=True)[0]
