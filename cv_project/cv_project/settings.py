@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'person',
-    'iris'
+    'iris',
+    'log_entry'
 ]
 
 MIDDLEWARE = [
