@@ -1,4 +1,3 @@
-from .datasets import load_utiris
 import matplotlib.pyplot as plt
 import cv2
 import math
@@ -159,14 +158,3 @@ def find_iris_id(img, x, y, r):
     x, y, r, l = find_segment(img, x, y, minr=r - 10, maxr=r + 10,
                               sigma=2, center_margin=5, jump=1)
     return x, y, r
-
-
-# Example usage
-if __name__ == '__main__':
-    data = load_utiris()['data']
-    image = cv2.imread(data[0])
-
-    img = preprocess(image)
-    x, y, r = find_pupil_hough(img)
-    x_iris, y_iris, r_iris = find_iris_id(img, x, y, r)
-    show_segment(image, x, y, r, x_iris, y_iris, r_iris)

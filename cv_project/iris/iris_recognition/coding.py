@@ -113,22 +113,3 @@ def iris_encode(img, dr=15, dtheta=15, alpha=0.4):
     code[code < 0] = 0
     return code, code_mask
 
-
-if __name__ == '__main__':
-    import cv2
-    from datasets import load_utiris
-    import matplotlib.pyplot as plt
-
-    data = load_utiris()['data']
-    image = cv2.imread(data[0])
-
-    iris = unravel_iris(image, 444, 334, 66, 450, 352, 245)
-    code, mask = iris_encode(iris)
-
-    plt.subplot(211)
-    plt.imshow(iris, cmap=plt.cm.gray)
-    plt.subplot(223)
-    plt.imshow(code, cmap=plt.cm.gray, interpolation='none')
-    plt.subplot(224)
-    plt.imshow(mask, cmap=plt.cm.gray, interpolation='none')
-    plt.show()

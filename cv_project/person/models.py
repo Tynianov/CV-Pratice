@@ -24,10 +24,6 @@ class PersonImage(models.Model):
         super(PersonImage, self).__init__(*args, **kwargs)
         self.__original_image = self.image
 
-    def compare_iris(self, image, code, mask):
-        for iris in self.iris.all():
-            iris.compare_iris(image, code, mask)
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.image and not self.encoding or self.image != self.__original_image:
