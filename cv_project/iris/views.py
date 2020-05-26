@@ -20,13 +20,16 @@ class IrisRecognizeAPIView(APIView):
             np_array = np.asarray(bytearray(image_bytes), dtype=np.uint8)
 
             encoded_image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
-            code, mask = encode_photo(encoded_image)
+            rgb = cv2.cvtColor(encoded_image, cv2.COLOR_BGR2RGB)
+            code, mask = encode_photo(rgb)
 
-            result = []
+            result = None
+            percentage = 0
             for iris in PersonIris.objects.all():
                 recognize = iris.compare_iris(code, mask)
-                if recognize:
-                    result.append(recognize)
+                if recognize and recognize['percentage'] > percentage:
+                    result = recognize
+                    percentage = result['percentage']
 
             if result:
                 return Response(result, status=200)

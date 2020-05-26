@@ -24,7 +24,8 @@ class PersonIrisForm(forms.ModelForm):
         instance = super().save(commit)
         try:
             image = cv2.imread(instance.image.path)
-            code, mask = encode_photo(image)
+            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            code, mask = encode_photo(rgb)
 
             self.instance.encoding = self.encode_np_array(code)
             self.instance.mask = self.encode_np_array(mask)
