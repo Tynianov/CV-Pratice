@@ -8,6 +8,7 @@ class Person(models.Model):
     last_name = models.CharField(max_length=128)
     email = models.EmailField(default="", blank=True)
     birthday = models.DateTimeField(default="", null=True)
+    image = models.ImageField(upload_to='avatars', blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from iris.iris_recognition.recognition import encode_photo
 from iris.models import PersonIris
+from log_entry.models import LogEntry
 
 
 class IrisRecognizeAPIView(APIView):
@@ -23,7 +24,7 @@ class IrisRecognizeAPIView(APIView):
             rgb = cv2.cvtColor(encoded_image, cv2.COLOR_BGR2RGB)
             code, mask = encode_photo(rgb)
 
-            result = None
+            result = {}
             percentage = 0
             for iris in PersonIris.objects.all():
                 recognize = iris.compare_iris(code, mask)
@@ -31,7 +32,11 @@ class IrisRecognizeAPIView(APIView):
                     result = recognize
                     percentage = result['percentage']
 
+            LogEntry.objects.create(authorization_type=LogEntry.IRIS, result=result is not None,
+                                    person=result.get('person_data'), percentage=percentage, image=image)
+
             if result:
+                result.pop('person_data')
                 return Response(result, status=200)
             return Response('Not Found', status=404)
         except Exception as e:

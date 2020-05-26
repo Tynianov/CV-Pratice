@@ -39,10 +39,10 @@ class PersonIris(models.Model):
             percentage = 1 - compare_codes(person_code, code, person_mask, mask)
             return {
                 'percentage': percentage,
+                'person_data': self.person,
                 'person': {
                     'first_name': self.person.first_name,
                     'last_name': self.person.last_name
-
                 }}
         except Exception as e:
             print(e)
