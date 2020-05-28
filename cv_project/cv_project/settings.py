@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'person',
-    'log_entry'
+    'log_entry',
+    'fingerprints'
 ]
 
 MIDDLEWARE = [
