@@ -2,4 +2,7 @@
 venv/
 cv_project/cv_project/.env
 
-/cv_project/media/
+media/
+statifiles/
+
+test/
