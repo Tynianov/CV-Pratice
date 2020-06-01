@@ -4,6 +4,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['cv-practice.herokuapp.com']
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
