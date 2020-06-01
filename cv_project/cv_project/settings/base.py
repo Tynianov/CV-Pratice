@@ -124,11 +124,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Additional locations of static_repo files
+if not os.path.exists(os.path.join(BASE_DIR, 'static_repo')):
+    os.mkdir(os.path.join(BASE_DIR, 'static_repo'))
 STATICFILES_DIRS = (
     os.path.normpath(os.path.join(BASE_DIR, 'static_repo')),
 )
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

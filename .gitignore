@@ -4,5 +4,7 @@ cv_project/cv_project/.env
 
 media/
 statifiles/
+static/
+static_repo/
 
 test/
