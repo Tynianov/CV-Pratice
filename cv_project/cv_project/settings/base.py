@@ -125,9 +125,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Additional locations of static_repo files
-if not os.path.exists(os.path.join(BASE_DIR, 'static_repo')):
-    os.mkdir(os.path.join(BASE_DIR, 'static_repo'))
-
 django_heroku.settings(locals())
 
 STATICFILES_DIRS = (

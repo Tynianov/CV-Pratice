@@ -1,1 +1,1 @@
-web: python3 cv_project/manage.py runserver
+web: gunicorn cv_project.wsgi:application
