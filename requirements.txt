@@ -14,8 +14,6 @@ numpy==1.18.4
 opencv-python==4.2.0.34
 Pillow~=5.1.0
 pytz==2018.3
-sqlparse~=0.2.4
-
 olefile~=0.45.1
 pip~=9.0.1
 wheel~=0.30.0
