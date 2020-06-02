@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
+import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
@@ -126,6 +127,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Additional locations of static_repo files
 if not os.path.exists(os.path.join(BASE_DIR, 'static_repo')):
     os.mkdir(os.path.join(BASE_DIR, 'static_repo'))
+
+django_heroku.settings(locals())
+
 STATICFILES_DIRS = (
     os.path.normpath(os.path.join(BASE_DIR, 'static_repo')),
 )
