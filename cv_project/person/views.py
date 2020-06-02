@@ -15,6 +15,12 @@ from .models import Person, PersonImage
 from log_entry.models import LogEntry
 
 
+def convert_binary_to_array(text):
+    out = BytesIO(text)
+    out.seek(0)
+    return np.load(out, allow_pickle=True)[0]
+
+
 class CompareFacesView(APIView):
 
     def post(self, request):
@@ -37,7 +43,7 @@ class CompareFacesView(APIView):
         rgb = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
         boxes = face_recognition.face_locations(rgb)
         encodings = face_recognition.face_encodings(rgb, boxes)
-        known_faces = [self.convert_binary_to_array(face)
+        known_faces = [convert_binary_to_array(face)
                        for face in PersonImage.objects.all().order_by('id').values_list('encoding', flat=True)]
         ids = PersonImage.objects.all().order_by('id').values_list('id', flat=True)
         names = []
@@ -72,8 +78,3 @@ class CompareFacesView(APIView):
             return Response({'result': 'Found match', 'names': names})
 
         return Response({'result': 'No matches found'})
-
-    def convert_binary_to_array(self, text):
-        out = BytesIO(text)
-        out.seek(0)
-        return np.load(out, allow_pickle=True)[0]
