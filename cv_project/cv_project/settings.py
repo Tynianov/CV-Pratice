@@ -44,8 +44,9 @@ INSTALLED_APPS = [
 
     'person',
     'log_entry',
-    'fingerprints'
+    'fingerprints',
     'iris',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
