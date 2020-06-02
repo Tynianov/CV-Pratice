@@ -4,6 +4,7 @@ decorator==4.4.2
 dj-database-url==0.5.0
 Django==2.2.11
 django-environ==0.4.5
+django-heroku==0.3.1
 django-mysql==3.5.0
 djangorestframework==3.11.0
 dlib==19.19.0
