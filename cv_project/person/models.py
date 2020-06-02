@@ -1,4 +1,7 @@
 import cv2
+import numpy as np
+import face_recognition
+from io import BytesIO
 
 from django.db import models
 
@@ -30,6 +33,11 @@ class PersonImage(models.Model):
         if self.image and not self.encoding or self.image != self.__original_image:
             image = cv2.imread(self.image.path)
             rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            self.encoding = rgb.dumps()
+            boxes = face_recognition.face_locations(rgb)
+            encodings = face_recognition.face_encodings(rgb, boxes)
+            io = BytesIO()
+            np.save(io, encodings)
+            io.seek(0)
+            self.encoding = io.read()
             super().save(*args, **kwargs)
             self.__original_image = self.image
