@@ -1,1 +1,1 @@
-web: python3 manage.py runserver
+web: python3 cv_project/manage.py runserver
