@@ -64,30 +64,6 @@ class FingerPrintRecognitionView(APIView):
                     status=HTTP_200_OK,
                 )
 
-        # for index, fingerprint in enumerate(known_fingerprints_descriptors):
-        #     matches = sorted(
-        #         bf.match(descriptors_to_check, fingerprint),
-        #         key=lambda match: match.distance,
-        #     )
-        #     score = 0
-        #     for match in matches:
-        #         score += match.distance
-        #     score_threshold = 33
-        #     if score / len(matches) < score_threshold:
-        #         person_fingerprint = PersonFingerprint.objects.filter(
-        #             id=ids[index]
-        #         ).first()
-        #         if person_fingerprint:
-        #             name = f"{person_fingerprint.person.first_name} {person_fingerprint.person.last_name}"
-        #
-        #             log_entry_data["person"] = person_fingerprint.person
-        #             log_entry_data["result"] = True
-        #             LogEntry.objects.create(**log_entry_data)
-        #
-        #             return Response(
-        #                 {"result": "We found matching fingerprint", "name": name},
-        #                 status=HTTP_200_OK,
-        #             )
         log_entry_data["result"] = False
         LogEntry.objects.create(**log_entry_data)
         return Response({"result": "No matches found"}, status=HTTP_404_NOT_FOUND)
