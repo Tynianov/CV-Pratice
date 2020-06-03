@@ -22,7 +22,7 @@ class PersonIrisForm(forms.ModelForm):
     def clean_image(self):
         image = self.cleaned_data.get('image')
 
-        if image.name.endswhit('.bmp'):
+        if not image.name.endswhit('.bmp'):
             raise forms.ValidationError('Bmp image required')
 
         return image

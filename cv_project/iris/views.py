@@ -17,7 +17,7 @@ class IrisRecognizeAPIView(APIView):
         if not image:
             return Response('Image required', status=400)
 
-        if image.name.endswith('.bmp'):
+        if not image.name.endswith('.bmp'):
             return Response('Bmp image required', status=400)
 
         try:
