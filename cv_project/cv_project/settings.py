@@ -28,7 +28,7 @@ SECRET_KEY = '8%)ixyynydok-myxxp8m)-c8^bvu=g4^z@$ior4nm-km6r#j&s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kpa.faifly.com', 'cv.faifly.com']
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST', 'cv.faifly.com')]
 
 # Application definition
 

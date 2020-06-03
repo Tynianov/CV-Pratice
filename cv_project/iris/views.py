@@ -17,9 +17,6 @@ class IrisRecognizeAPIView(APIView):
         if not image:
             return Response('Image required', status=400)
 
-        if not image.name.endswith('.bmp'):
-            return Response('Bmp image required', status=400)
-
         try:
             image_bytes = image.read()
             np_array = np.asarray(bytearray(image_bytes), dtype=np.uint8)
