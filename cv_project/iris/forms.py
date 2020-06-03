@@ -1,5 +1,4 @@
 import base64
-import os
 import pickle
 
 import cv2
@@ -19,6 +18,14 @@ class PersonIrisForm(forms.ModelForm):
         np_bytes = pickle.dumps(array)
         np_base64 = base64.b64encode(np_bytes)
         return np_base64
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+
+        if image.name.endswhit('.bmp'):
+            raise forms.ValidationError('Bmp image required')
+
+        return image
 
     def save(self, commit=True):
         instance = super().save(commit)
