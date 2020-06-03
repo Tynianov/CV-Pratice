@@ -112,8 +112,8 @@ def ridge_filter(im, orient, freq, kx, ky):
     sze = numpy.round(3 * numpy.max([sigmax, sigmay]))
 
     x, y = numpy.meshgrid(
-        numpy.linspace(-sze, sze, int(2 * sze + 1)),
-        numpy.linspace(-sze, sze, int(2 * sze + 1)),
+        numpy.linspace(-sze, sze, (2 * sze + 1)),
+        numpy.linspace(-sze, sze, (2 * sze + 1)),
     )
 
     reffilter = numpy.exp(
