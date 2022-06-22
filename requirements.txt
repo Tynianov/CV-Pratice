@@ -28,7 +28,7 @@ MarkupSafe==1.1.1
 matplotlib==3.2.1
 mysqlclient==1.4.6
 networkx==2.4
-numpy==1.17.0
+numpy==1.22.0
 olefile==0.45.1
 opencv-python==4.2.0.34
 Pillow==7.1.2
